@@ -72,6 +72,11 @@ static void sqlite_regexp(sqlite3_context* context, int argc, sqlite3_value** va
         NSLog(@"Detected Library path: %@", libs);
         [appDBPaths setObject: libs forKey:@"libs"];
 
+        NSString *bundleResDirectory = [[NSBundle mainBundle] resourcePath];
+        NSString *www = [bundleResDirectory stringByAppendingString: @"/www/"];
+        [appDBPaths setObject: www forKey:@"www"];
+        NSLog(@"[www] Path Inited: %@", www);
+
         NSString *nosync = [libs stringByAppendingPathComponent:@"LocalDatabase"];
         NSError *err;
         if ([[NSFileManager defaultManager] fileExistsAtPath: nosync])
@@ -143,6 +148,7 @@ static void sqlite_regexp(sqlite3_context* context, int argc, sqlite3_value** va
 
             /* Option to create database from resource (pre-populated) if it does not exist: */
             if (![[NSFileManager defaultManager] fileExistsAtPath: dbname]) {
+                NSLog(@"DB DOESN't EXIST!");
                 NSString * createFromResource = [options objectForKey:@"createFromResource"];
                 if (createFromResource != NULL)
                     [self createFromResource: dbfilename withDbname: dbname];
@@ -152,6 +158,7 @@ static void sqlite_regexp(sqlite3_context* context, int argc, sqlite3_value** va
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unable to open DB"];
                 return;
             } else {
+                NSLog(@"DB Opened! %@", dbname);
                 sqlite3_create_function(db, "regexp", 2, SQLITE_ANY, NULL, &sqlite_regexp, NULL, NULL);
 
                 // for SQLCipher version:
