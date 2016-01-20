@@ -1,3 +1,18 @@
+# Cordova/PhoneGap sqlite storage adapter with readonly pre-poluted databases access
+
+This is a fork of [litehelpers / cordova-sqlite-ext](https://github.com/litehelpers/cordova-sqlite-ext) plugin.
+It supports reading from pre-populated databases right from the bundle (**iOS only**). *Unfortunately it is yet unavailable for Android though.*
+
+This feature would be very useful, when one deals with an enormous database file (e.g.: 300Mb+ map.mbtiles file, that contains map tiles). So the wise decision would be to read file reight from the bundle instead of copying it to Documents folder, as it takes less time and disk space. You only limited by read-only access in this case. But it's not really a big deal for the most projects.
+
+To get access to your database from the bundle, use sqlitePlugin.openDatabase method with ``location: 3`` option (see an example bellow):
+
+```js
+db = sqlitePlugin.openDatabase({name: "my.db", location: 3});
+```
+
+The less usage is equal to general [cordova-sqlite-ext](https://github.com/litehelpers/cordova-sqlite-ext) plugin usage.
+
 # Cordova/PhoneGap sqlite storage adapter with extras
 
 Native interface to sqlite in a Cordova/PhoneGap plugin for Android, iOS, Windows "Universal" (8.1), and Amazon Fire-OS with API similar to HTML5/[Web SQL API](http://www.w3.org/TR/webdatabase/).
