@@ -532,7 +532,7 @@
     }
   };
 
-  dblocations = ["docs", "libs", "nosync"];
+  dblocations = ["docs", "libs", "nosync", "www"];
 
   iosLocationMap = {
     'default': 'nosync',
